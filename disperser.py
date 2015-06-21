@@ -142,6 +142,8 @@ def fileCreation():
         itemID INT(11), \n\
         itemName TEXT, \n\
         itemDropChance DECIMAL (6,4) NOT NULL, \n\
+        minAmount INT(11), \n\
+        maxAmount INT(11), \n\
         metaLevel INT(11) \n\
         );\
         \n \
@@ -206,9 +208,9 @@ def queryComposition(groupID, metaLevel, size, npcGroupID):
         #the tabulations which makes resulting query look ugly
         fileFill.writelines("INSERT INTO npcLoot (npcGroupID, npcGroupName,\n \
     itemGroupID, itemGroupName, groupDropChance, \n \
-    itemID, itemName, itemDropChance, metaLevel)\n \
+    itemID, itemName, itemDropChance, minAmount, maxAmount, metaLevel)\n \
 VALUES \n")
-        #Yet another loooong typing. Can't be helped too - MySQL syntax =(
+        #Yet another loooong typing. Can't be helped too - MySQL syntax =(      
         fileFill.write("(" + str(npcGroupID) + ", " + '"' + npcGroupName  
                             + '"' + ", " \
                             + str(row[0]) + ", " +  '"' + str(row[1]) \
@@ -216,7 +218,8 @@ VALUES \n")
                             + "0.5" + ", " \
                             + str(row[2]) + ", " + '"' + str(row[3]) \
                             + '"' + ", " \
-                            + str(dropChance) + ", " + str(metaLevel) + ");")
+                            + str(dropChance) + ", " + "1, " + "1, " \
+                            + str(metaLevel) + ");")
         fileFill.write('\n')         
     #Closing the file
     fileFill.close()
