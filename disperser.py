@@ -200,13 +200,16 @@ def queryComposition(groupID, metaLevel, size, npcGroupID):
     cur2.executemany("SELECT groupID, groupName FROM invGroups\
                     WHERE groupID = %s", [npcGroupID])
     #Main processing branch:
+    #Working with the cursor directly is a pain in the ass, so i had to use
+    #a for-loop to define the current npc invGroup's name.
     for npcRow in cur2:
         npcGroupName = str(npcRow[1])
+    #Now the main workhorse of the function - adding queries one per itemID
     fileFill = open(outputFile, 'a')
     for row in cur1:
         #Realy ugly formatting here, but can't be helped - writelines counts
         #the tabulations which makes resulting query look ugly
-        fileFill.writelines("INSERT INTO npcLoot (npcGroupID, npcGroupName,\n \
+        fileFill.writelines("INSERT INTO npcLoot (npcGroupID, npcGroupName,\n\
     itemGroupID, itemGroupName, groupDropChance, \n \
     itemID, itemName, itemDropChance, minAmount, maxAmount, metaLevel)\n \
 VALUES \n")
@@ -223,7 +226,7 @@ VALUES \n")
         fileFill.write('\n')         
     #Closing the file
     fileFill.close()
-    #Printing the results - which mode was used
+    #Printing the results - which group/module/metaLevel was processed
     print(row[1], "Adding with meta level ", metaLevel, "to ", \
            npcGroupName, " is finished!")
     #Closing MySQL connection
