@@ -263,7 +263,7 @@ for meta in (0,1,2,3,4):
     queryComposition(53, meta, 2, 578)
 #Asteroid Blood Raiders Battleship
 for meta in (0,1,2,3,4):
-    queryComposition(53, 0, 3, 556)
+    queryComposition(53, meta, 3, 556)
 #Asteroid Guristas Frigate
 for meta in (0,1,2,3,4):
     queryComposition(507, meta, 1, 562)
@@ -303,7 +303,7 @@ for meta in (0,1,2,3,4):
     queryComposition(53, meta, 2, 582)
 #Asteroid Sansha's Nation Battleship
 for meta in (0,1,2,3,4):
-    queryComposition(53, 2, 3, 565)
+    queryComposition(53, meta, 3, 565)
 #Asteroid Serpentis Frigate
 for meta in (0,1,2,3,4):
     queryComposition(74, meta, 1, 572)
