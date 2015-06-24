@@ -245,179 +245,80 @@ Just a remainder that queryComposition arguments are next:
 3 - size (1 - small, 2 medium, 3 - large, 4 - X-Large, 5 - Micro)
 4 - NPC invGroup (e.g. 557 - Asteroid Blood Raiders Frigate)
 Author: Zuko
+Edit: AlTahir (aka DaVinci)
 '''
 
 fileCreation()
 #Asteroid Blood Raiders Frigate
-queryComposition(53, 0, 1, 557)
-queryComposition(53, 1, 1, 557)
-queryComposition(53, 2, 1, 557)
-queryComposition(53, 3, 1, 557)
-queryComposition(53, 4, 1, 557)
+for meta in (0,1,2,3,4):
+    queryComposition(53, meta, 1, 557)
 #Asteroid Blood Raiders Destroyer
-queryComposition(53, 0, 1, 577)
-queryComposition(53, 1, 1, 577)
-queryComposition(53, 2, 1, 577)
-queryComposition(53, 3, 1, 577)
-queryComposition(53, 4, 1, 577)
+for meta in (0,1,2,3,4):
+    queryComposition(53, meta, 1, 577)
 #Asteroid Blood Raiders Cruiser
-queryComposition(53, 0, 2, 555)
-queryComposition(53, 1, 2, 555)
-queryComposition(53, 2, 2, 555)
-queryComposition(53, 3, 2, 555)
-queryComposition(53, 4, 2, 555)
+for meta in (0,1,2,3,4):
+    queryComposition(53, meta, 2, 555)
 #Asteroid Blood Raiders BattleCruiser
-queryComposition(53, 0, 2, 578)
-queryComposition(53, 1, 2, 578)
-queryComposition(53, 2, 2, 578)
-queryComposition(53, 3, 2, 578)
-queryComposition(53, 4, 2, 578)
+for meta in (0,1,2,3,4):
+    queryComposition(53, meta, 2, 578)
 #Asteroid Blood Raiders Battleship
-queryComposition(53, 0, 3, 556)
-queryComposition(53, 1, 3, 556)
-queryComposition(53, 2, 3, 556)
-queryComposition(53, 3, 3, 556)
-queryComposition(53, 4, 3, 556)
+for meta in (0,1,2,3,4):
+    queryComposition(53, 0, 3, 556)
 #Asteroid Guristas Frigate
-queryComposition(507, 0, 1, 562)
-queryComposition(507, 1, 1, 562)
-queryComposition(507, 2, 1, 562)
-queryComposition(507, 3, 1, 562)
-queryComposition(507, 4, 1, 562)
-queryComposition(509, 0, 1, 562)
-queryComposition(509, 1, 1, 562)
-queryComposition(509, 2, 1, 562)
-queryComposition(509, 3, 1, 562)
-queryComposition(509, 4, 1, 562)
-queryComposition(74, 0, 1, 562)
-queryComposition(74, 1, 1, 562)
-queryComposition(74, 2, 1, 562)
-queryComposition(74, 3, 1, 562)
-queryComposition(74, 4, 1, 562)
+for meta in (0,1,2,3,4):
+    queryComposition(507, meta, 1, 562)
+    queryComposition(509, meta, 1, 562)
+    queryComposition(74, meta, 1, 562)
 #Asteroid Guristas Destroyer
-queryComposition(507, 0, 1, 579)
-queryComposition(507, 1, 1, 579)
-queryComposition(507, 2, 1, 579)
-queryComposition(507, 3, 1, 579)
-queryComposition(507, 4, 1, 579)
-queryComposition(509, 0, 1, 579)
-queryComposition(509, 1, 1, 579)
-queryComposition(509, 2, 1, 579)
-queryComposition(509, 3, 1, 579)
-queryComposition(509, 4, 1, 579)
-queryComposition(74, 0, 1, 579)
-queryComposition(74, 1, 1, 579)
-queryComposition(74, 2, 1, 579)
-queryComposition(74, 3, 1, 579)
-queryComposition(74, 4, 1, 579)
+for meta in (0,1,2,3,4):
+    queryComposition(507, meta, 1, 579)
+    queryComposition(509, meta, 1, 579)
+    queryComposition(74, meta, 1, 579)
 #Asteroid Guristas Cruiser
-queryComposition(510, 0, 2, 561)
-queryComposition(510, 1, 2, 561)
-queryComposition(510, 2, 2, 561)
-queryComposition(510, 3, 2, 561)
-queryComposition(510, 4, 2, 561)
-queryComposition(511, 0, 2, 561)
-queryComposition(511, 1, 2, 561)
-queryComposition(511, 2, 2, 561)
-queryComposition(511, 3, 2, 561)
-queryComposition(511, 4, 2, 561)
-queryComposition(74, 0, 2, 561)
-queryComposition(74, 1, 2, 561)
-queryComposition(74, 2, 2, 561)
-queryComposition(74, 3, 2, 561)
-queryComposition(74, 4, 2, 561)
-#Asteroid Angel Cartel BattleCruiser
-queryComposition(510, 0, 2, 576)
-queryComposition(510, 1, 2, 576)
-queryComposition(510, 2, 2, 576)
-queryComposition(510, 3, 2, 576)
-queryComposition(510, 4, 2, 576)
-queryComposition(511, 0, 2, 576)
-queryComposition(511, 1, 2, 576)
-queryComposition(511, 2, 2, 576)
-queryComposition(511, 3, 2, 576)
-queryComposition(511, 4, 2, 576)
-queryComposition(74, 0, 2, 576)
-queryComposition(74, 1, 2, 576)
-queryComposition(74, 2, 2, 576)
-queryComposition(74, 3, 2, 576)
-queryComposition(74, 4, 2, 576)
+for meta in (0,1,2,3,4):
+    queryComposition(510, meta, 2, 561)
+    queryComposition(511, meta, 2, 561)
+    queryComposition(74, meta, 2, 561)
+##Asteroid Guristas BattleCruiser
+for meta in (0,1,2,3,4):
+    queryComposition(510, meta, 2, 580)
+    queryComposition(511, meta, 2, 580)
+    queryComposition(74, meta, 2, 580)
 #Asteroid Guristas Battleship
-queryComposition(506, 0, 3, 560)
-queryComposition(506, 1, 3, 560)
-queryComposition(506, 2, 3, 560)
-queryComposition(506, 3, 3, 560)
-queryComposition(506, 4, 3, 560)
-queryComposition(508, 0, 3, 560)
-queryComposition(508, 1, 3, 560)
-queryComposition(508, 2, 3, 560)
-queryComposition(508, 3, 3, 560)
-queryComposition(508, 4, 3, 560)
-queryComposition(74, 0, 3, 560)
-queryComposition(74, 1, 3, 560)
-queryComposition(74, 2, 3, 560)
-queryComposition(74, 3, 3, 560)
-queryComposition(74, 4, 3, 560)
+for meta in (0,1,2,3,4):
+    queryComposition(506, meta, 3, 560)
+    queryComposition(508, meta, 3, 560)
+    queryComposition(74, meta, 3, 560)
 #Asteroid Sansha's Nation Frigate
-queryComposition(53, 0, 1, 567)
-queryComposition(53, 1, 1, 567)
-queryComposition(53, 2, 1, 567)
-queryComposition(53, 3, 1, 567)
-queryComposition(53, 4, 1, 567)
+for meta in (0,1,2,3,4):
+    queryComposition(53, meta, 1, 567)
 #Asteroid Sansha's Nation Destroyer
-queryComposition(53, 0, 1, 581)
-queryComposition(53, 1, 1, 581)
-queryComposition(53, 2, 1, 581)
-queryComposition(53, 3, 1, 581)
-queryComposition(53, 4, 1, 581)
+for meta in (0,1,2,3,4):
+    queryComposition(53, meta, 1, 581)
 #Asteroid Sansha's Nation Cruiser
-queryComposition(53, 0, 2, 566)
-queryComposition(53, 1, 2, 566)
-queryComposition(53, 2, 2, 566)
-queryComposition(53, 3, 2, 566)
-queryComposition(53, 4, 2, 566)
+for meta in (0,1,2,3,4):
+    queryComposition(53, meta, 2, 566)
 #Asteroid Sansha's Nation BattleCruiser
-queryComposition(53, 0, 2, 582)
-queryComposition(53, 1, 2, 582)
-queryComposition(53, 2, 2, 582)
-queryComposition(53, 3, 2, 582)
-queryComposition(53, 4, 2, 582)
+for meta in (0,1,2,3,4):
+    queryComposition(53, meta, 2, 582)
 #Asteroid Sansha's Nation Battleship
-queryComposition(53, 0, 3, 565)
-queryComposition(53, 1, 3, 565)
-queryComposition(53, 2, 3, 565)
-queryComposition(53, 3, 3, 565)
-queryComposition(53, 4, 3, 565)
+for meta in (0,1,2,3,4):
+    queryComposition(53, 2, 3, 565)
 #Asteroid Serpentis Frigate
-queryComposition(74, 0, 1, 572)
-queryComposition(74, 1, 1, 572)
-queryComposition(74, 2, 1, 572)
-queryComposition(74, 3, 1, 572)
-queryComposition(74, 4, 1, 572)
+for meta in (0,1,2,3,4):
+    queryComposition(74, meta, 1, 572)
 #Asteroid Serpentis Destroyer
-queryComposition(74, 0, 1, 583)
-queryComposition(74, 1, 1, 583)
-queryComposition(74, 2, 1, 583)
-queryComposition(74, 3, 1, 583)
-queryComposition(74, 4, 1, 583)
+for meta in (0,1,2,3,4):
+    queryComposition(74, meta, 1, 583)
 #Asteroid Sansha's Nation Cruiser
-queryComposition(74, 0, 2, 566)
-queryComposition(74, 1, 2, 566)
-queryComposition(74, 2, 2, 566)
-queryComposition(74, 3, 2, 566)
-queryComposition(74, 4, 2, 566)
+for meta in (0,1,2,3,4):
+    queryComposition(74, meta, 2, 566)
 #Asteroid Serpentis BattleCruiser
-queryComposition(74, 0, 2, 584)
-queryComposition(74, 1, 2, 584)
-queryComposition(74, 2, 2, 584)
-queryComposition(74, 3, 2, 584)
-queryComposition(74, 4, 2, 584)
+for meta in (0,1,2,3,4):
+    queryComposition(74, meta, 2, 584)
 #Asteroid Serpentis Battleship
-queryComposition(74, 0, 3, 570)
-queryComposition(74, 1, 3, 570)
-queryComposition(74, 2, 3, 570)
-queryComposition(74, 3, 3, 570)
-queryComposition(74, 4, 3, 570)
+for meta in (0,1,2,3,4):
+    queryComposition(74, meta, 3, 570)
 
 #Closing the cursors and MySQL connections
 cur1.close()
