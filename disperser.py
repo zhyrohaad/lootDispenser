@@ -250,70 +250,104 @@ Edit: AlTahir (aka DaVinci)
 fileCreation()
 #Asteroid Blood Raiders Frigate
 for meta in (0,1,2,3,4):
-    queryComposition(53, meta, 1, 557)
+    for moduleGroup in (53, 62, 329):
+        queryComposition(moduleGroup, meta, 1, 557)
+#Making a separate loop for hull reps as they don't have meta-0 items
+for meta in (1,2,3,4):
+    queryComposition(63, meta, 1, 557)
 #Asteroid Blood Raiders Destroyer
 for meta in (0,1,2,3,4):
-    queryComposition(53, meta, 1, 577)
+    for moduleGroup in (53, 62, 329):
+        queryComposition(moduleGroup, meta, 1, 577)
+#Another hull-rep
+for meta in (1,2,3,4):
+    queryComposition(63, meta, 1, 577)
 #Asteroid Blood Raiders Cruiser
 for meta in (0,1,2,3,4):
-    queryComposition(53, meta, 2, 555)
+    for moduleGroup in (53, 62, 329):
+        queryComposition(moduleGroup, meta, 2, 555)
+#Another hull-rep
+for meta in (1,2,3,4):
+    queryComposition(63, meta, 2, 555)
 #Asteroid Blood Raiders BattleCruiser
 for meta in (0,1,2,3,4):
-    queryComposition(53, meta, 2, 578)
+    for moduleGroup in (53, 62, 329):
+        queryComposition(moduleGroup, meta, 2, 578)
+for meta in (1,2,3,4):
+    queryComposition(63, meta, 2, 578)
 #Asteroid Blood Raiders Battleship
 for meta in (0,1,2,3,4):
-    queryComposition(53, meta, 3, 556)
+    for moduleGroup in (53, 62):
+        queryComposition(moduleGroup, meta, 3, 556)
+#Same i did for hull reps i do for large armor reps
+for meta in (1,2,3,4):
+    queryComposition(329, meta, 3, 556)
 #Asteroid Guristas Frigate
 for meta in (0,1,2,3,4):
-    for moduleGroup in (507, 509, 74):
+    for moduleGroup in (507, 509, 74, 38, 40):
         queryComposition(moduleGroup, meta, 1, 562)
 #Asteroid Guristas Destroyer
 for meta in (0,1,2,3,4):
-    for moduleGroup in (507, 509, 74):
+    for moduleGroup in (507, 509, 74, 38, 40):
         queryComposition(moduleGroup, meta, 1, 579)
 #Asteroid Guristas Cruiser
 for meta in (0,1,2,3,4):
-    for moduleGroup in (510, 511, 74):
+    for moduleGroup in (510, 511, 74, 38, 40):
         queryComposition(moduleGroup, meta, 2, 561)
 ##Asteroid Guristas BattleCruiser
 for meta in (0,1,2,3,4):
-    for moduleGroup in (510, 511, 74):
+    for moduleGroup in (510, 511, 74, 38, 40):
         queryComposition(moduleGroup, meta, 2, 580)
 #Asteroid Guristas Battleship
 for meta in (0,1,2,3,4):
-    for moduleGroup in (506, 508, 74):
+    for moduleGroup in (506, 508, 74, 38, 40):
         queryComposition(moduleGroup, meta, 3, 560)
 #Asteroid Sansha's Nation Frigate
 for meta in (0,1,2,3,4):
-    queryComposition(53, meta, 1, 567)
+    for moduleGroup in (53, 62, 329):
+        queryComposition(moduleGroup, meta, 1, 567)
 #Asteroid Sansha's Nation Destroyer
 for meta in (0,1,2,3,4):
-    queryComposition(53, meta, 1, 581)
+    for moduleGroup in (53, 62, 329):
+        queryComposition(moduleGroup, meta, 1, 581)
 #Asteroid Sansha's Nation Cruiser
 for meta in (0,1,2,3,4):
-    queryComposition(53, meta, 2, 566)
+    for moduleGroup in (53, 62, 329):
+        queryComposition(moduleGroup, meta, 2, 566)
 #Asteroid Sansha's Nation BattleCruiser
 for meta in (0,1,2,3,4):
-    queryComposition(53, meta, 2, 582)
+    for moduleGroup in (53, 62, 329):
+        queryComposition(moduleGroup, meta, 2, 582)
 #Asteroid Sansha's Nation Battleship
 for meta in (0,1,2,3,4):
-    queryComposition(53, meta, 3, 565)
+    for moduleGroup in (53, 62):
+        queryComposition(moduleGroup, meta, 3, 565)
+#Same i did for hull reps i do for large armor reps
+for meta in (1,2,3,4):
+    queryComposition(329, meta, 3, 565)
 #Asteroid Serpentis Frigate
 for meta in (0,1,2,3,4):
-    queryComposition(74, meta, 1, 572)
+    for moduleGroup in (74, 62, 329):
+        queryComposition(moduleGroup, meta, 1, 572)
 #Asteroid Serpentis Destroyer
 for meta in (0,1,2,3,4):
-    queryComposition(74, meta, 1, 583)
-#Asteroid Sansha's Nation Cruiser
+    for moduleGroup in (74, 62, 329):
+        queryComposition(moduleGroup, meta, 1, 583)
+#Asteroid Serpentis Cruiser
 for meta in (0,1,2,3,4):
-    queryComposition(74, meta, 2, 566)
+    for moduleGroup in (74, 62, 329):
+        queryComposition(moduleGroup, meta, 2, 571)
 #Asteroid Serpentis BattleCruiser
 for meta in (0,1,2,3,4):
-    queryComposition(74, meta, 2, 584)
+    for moduleGroup in (74, 62, 329):
+        queryComposition(moduleGroup, meta, 2, 584)
 #Asteroid Serpentis Battleship
 for meta in (0,1,2,3,4):
-    queryComposition(74, meta, 3, 570)
-
+    for moduleGroup in (74, 62):
+        queryComposition(moduleGroup, meta, 3, 570)
+#Same i did for hull reps i do for large armor reps
+for meta in (1,2,3,4):
+    queryComposition(329, meta, 3, 570)
 
 #Closing the cursors and MySQL connections
 cur1.close()
