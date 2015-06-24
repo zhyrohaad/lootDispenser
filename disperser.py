@@ -227,9 +227,8 @@ VALUES \n")
     #Closing the file
     fileFill.close()
     #Printing the results - which group/module/metaLevel was processed
-    print(row[1], "Adding with meta level ", metaLevel, "to ", \
+    print(row[1], "adding with meta level ", metaLevel, "to ", \
            npcGroupName, " is finished!")
-    #Closing MySQL connection
     #Function End
 
 #============================================================================#
@@ -266,29 +265,24 @@ for meta in (0,1,2,3,4):
     queryComposition(53, meta, 3, 556)
 #Asteroid Guristas Frigate
 for meta in (0,1,2,3,4):
-    queryComposition(507, meta, 1, 562)
-    queryComposition(509, meta, 1, 562)
-    queryComposition(74, meta, 1, 562)
+    for moduleGroup in (507, 509, 74):
+        queryComposition(moduleGroup, meta, 1, 562)
 #Asteroid Guristas Destroyer
 for meta in (0,1,2,3,4):
-    queryComposition(507, meta, 1, 579)
-    queryComposition(509, meta, 1, 579)
-    queryComposition(74, meta, 1, 579)
+    for moduleGroup in (507, 509, 74):
+        queryComposition(moduleGroup, meta, 1, 579)
 #Asteroid Guristas Cruiser
 for meta in (0,1,2,3,4):
-    queryComposition(510, meta, 2, 561)
-    queryComposition(511, meta, 2, 561)
-    queryComposition(74, meta, 2, 561)
+    for moduleGroup in (510, 511, 74):
+        queryComposition(moduleGroup, meta, 2, 561)
 ##Asteroid Guristas BattleCruiser
 for meta in (0,1,2,3,4):
-    queryComposition(510, meta, 2, 580)
-    queryComposition(511, meta, 2, 580)
-    queryComposition(74, meta, 2, 580)
+    for moduleGroup in (510, 511, 74):
+        queryComposition(moduleGroup, meta, 2, 580)
 #Asteroid Guristas Battleship
 for meta in (0,1,2,3,4):
-    queryComposition(506, meta, 3, 560)
-    queryComposition(508, meta, 3, 560)
-    queryComposition(74, meta, 3, 560)
+    for moduleGroup in (506, 508, 74):
+        queryComposition(moduleGroup, meta, 3, 560)
 #Asteroid Sansha's Nation Frigate
 for meta in (0,1,2,3,4):
     queryComposition(53, meta, 1, 567)
@@ -319,6 +313,7 @@ for meta in (0,1,2,3,4):
 #Asteroid Serpentis Battleship
 for meta in (0,1,2,3,4):
     queryComposition(74, meta, 3, 570)
+
 
 #Closing the cursors and MySQL connections
 cur1.close()
