@@ -1,5 +1,4 @@
 """
-
  ------------------------------------------------------------------------------------
     LICENSE:
     ------------------------------------------------------------------------------------
@@ -21,7 +20,6 @@
     http://www.gnu.org/copyleft/lesser.txt.
     ------------------------------------------------------------------------------------
     Authors:    Zuko, AlTahir(aka DaVinci)
-
 """
 
 # Import section:
@@ -46,6 +44,9 @@ cur1 = conn1.cursor()
 conn2 = sql.connect(host=sqlHost, port=sqlPort, user=sqlUser,
                     passwd=sqlPwd, db=sqlDb)
 cur2 = conn2.cursor()    # Duplicated connection for npcInvGroups processing
+conn3 = sql.connect(host=sqlHost, port=sqlPort, user=sqlUser,
+                    passwd=sqlPwd, db=sqlDb)
+cur3 = conn3.cursor()    # Another duplicate for itemGroups processing
 
 # ========================================================================== #
 #                       Libraries and Dictionaries                           #
@@ -70,6 +71,7 @@ Sizes description:
 # invGroup = 509 - Light Missiles. Same volume - 5.
 # invGroup = 511 - Rapid Light Missiles. All launchers are having volume of 10
 # invGroup = 510 - Heavy Missiles. Same volume - 10.
+# invGroup = 771 - Heavy Assault Missiles. Same volume - 10
 # invGroup = 506 - Cruise Missiles. All launchers are having volume of 20.
 # invGroup = 508 - Torpedoes. Same volume - 20
 WeaponSizes = {1: 5, 2: 10, 3: 20}
@@ -132,54 +134,263 @@ Author: AlTahir (aka DaVinci)
 
 def file_сreation():
     # Output file setup:
-    output_file = workDir + 'npcLoot.sql'
-    file_create = open(output_file, 'w')
-    file_create.writelines("CREATE TABLE IF NOT EXISTS npcLoot \n \
-        ( \n \
-        npcGroupID INT(11), \n \
-        npcGroupName TEXT, \n \
-        itemGroupID INT(11),\n \
-        itemGroupName TEXT, \n \
-        groupDropChance DECIMAL (6,4) NOT NULL, \n \
-        itemID INT(11), \n\
-        itemName TEXT, \n\
-        itemDropChance DECIMAL (6,4) NOT NULL, \n\
-        minAmount INT(11), \n\
-        maxAmount INT(11), \n\
-        metaLevel INT(11) \n\
-        );\
-        \n \
-        \n"
-                           )
-    file_create.close()
-    
+    loot_group_file = workDir + 'lootGroup.sql'
+    loot_item_group_file = workDir + 'lootItemGroup.sql'
+    # Creating and filling the first file. Warning - ugly formatting here =) :
+    first_file = open(loot_group_file, 'w')
+    first_file.writelines("DROP TABLE IF EXISTS lootGroup; \n\
+\n\
+CREATE TABLE IF NOT EXISTS lootGroup( \n\
+npcGroupID INT(11) , \n\
+npcGroupName TEXT, \n\
+groupDropChance DECIMAL (6,4) NOT NULL, \n\
+itemGroupID INT(11), \n\
+itemGroupName TEXT); \n\
+\n \
+\n                        ")
+    # Creating and filling the second file. Warning - ugly formatting here =) :
+    second_file = open(loot_item_group_file, 'w')
+    second_file.writelines("DROP TABLE IF EXISTS lootItemGroup; \n\
+\n\
+CREATE TABLE IF NOT EXISTS lootItemGroup( \n\
+itemGroupID INT(11) , \n\
+itemGroupName TEXT, \n\
+itemID INT(11), \n\
+itemName TEXT, \n\
+itemMetaLevel INT(11), \n\
+itemDropChance DECIMAL (6,4) NOT NULL, \n\
+minAmount INT(11), \n\
+maxAmount INT(11)); \n\
+\n \
+\n                         ")
+    # Closing both files:
+    first_file.close()
+    second_file.close()
+    # End of function
+
 '''
-Query composition function - inserts the invGroups/invTypes/chances data
-into the output file.
+LootGroup fill function - fills the lootGroup table with the loot groups.
 Author - AlTahir(aka DaVinci)
 '''
 
 
-def query_composition(group_id, meta_level, size, npc_group_id):
+def loot_group_write(group_id, size, npc_group_id):
     # Output file setup:
-    output_file = workDir + 'npcLoot.sql'
-    # Defining the sizes, based on volumes for different invGroups:
-    if group_id in (53, 74):
+    loot_group_file = workDir + 'lootGroup.sql'
+    # Defining the sizes and group, based on volumes for different invGroups:
+    # NOTE - thinking of moving it out of function by now...dat sizes.
+    if group_id == 53:
         module_size = str(WeaponSizes[size])
-    elif group_id in (507, 509):
+        if size == 1:
+            module_group = str("1")
+        elif size == 2:
+            module_group = str("2")
+        elif size == 3:
+            module_group = str("3")
+    elif group_id == 74:
+        module_size = str(WeaponSizes[size])
+        if size == 1:
+            module_group = str("4")
+        elif size == 2:
+            module_group = str("5")
+        elif size == 3:
+            module_group = str("6")
+    elif group_id == 507:
         module_size = str("5")
-    elif group_id in (510, 511):
+        module_group = str("10")
+    elif group_id == 509:
+        module_size = str("5")
+        module_group = str("11")
+    elif group_id == 510:
         module_size = str("10")
-    elif group_id in (506, 508):
+        module_group = str("13")
+    elif group_id == 511:
+        module_size = str("10")
+        module_group = str("12")
+    elif group_id == 771:
+        module_size = str("10")
+        module_group = str("14")
+    elif group_id == 506:
         module_size = str("20")
-    elif group_id in (62, 63):
+        module_group = str("15")
+    elif group_id == 508:
+        module_size = str("20")
+        module_group = str("16")
+    elif group_id == 62:
         module_size = str(hullArmorRepairerSizes[size])
+        if size == 1:
+            module_group = str("28")
+        elif size == 2:
+            module_group = str("29")
+        elif size == 3:
+            module_group = str("30")
+    elif group_id == 63:
+        module_size = str(hullArmorRepairerSizes[size])
+        if size == 1:
+            module_group = str("25")
+        elif size == 2:
+            module_group = str("26")
+        elif size == 3:
+            module_group = str("27")
     elif group_id == 38:
         module_size = str(shieldExtenderSizes[size])
+        if size == 1:
+            module_group = str("18")
+        elif size == 2:
+            module_group = str("19")
+        elif size == 3:
+            module_group = str("20")
+        elif size == 5:
+            module_group = str("17")
     elif group_id == 40:
         module_size = str(shieldBoosterSizes[size])
+        if size == 1:
+            module_group = str("21")
+        elif size == 2:
+            module_group = str("22")
+        elif size == 3:
+            module_group = str("23")
+        elif size == 4:
+            module_group = str("24")
     elif group_id == 329:
         module_size = str(armorPlateSizes[size])
+        if size == 1:
+            module_group = str("31")
+        elif size == 2:
+            module_group = str("32")
+        elif size == 3:
+            module_group = str("33")
+
+    # Executing queries:
+    cur2.executemany("SELECT groupID, groupName FROM invGroups\
+                    WHERE groupID = %s", [npc_group_id])
+    cur3.executemany("SELECT lootGroupID, lootGroupName \
+                    FROM lootItemGroupNames \
+                    WHERE lootGroupID = %s", [module_group])
+
+    # Main processing branch:
+    # Working with the cursor directly is a pain in the ass, so i had to use
+    # a for-loop to define the current npc invGroup's name.
+    for npcRow in cur2:
+        npc_group_name = str(npcRow[1])
+    # Same for item group definition:
+    for moduleRow in cur3:
+        module_group_name = str(moduleRow[1])
+
+    # Now we insert the data in the file.
+    # Realy ugly formatting here, but can't be helped - writelines counts
+    # the tabulations which makes resulting query look ugly
+    first_file_append = open(loot_group_file, 'a')
+    first_file_append.writelines("INSERT INTO lootGroup (npcGroupID, \
+npcGroupName, groupDropChance, \
+itemGroupID, itemGroupName) \n \
+VALUES \n")
+    first_file_append.write("(" + str(npc_group_id) + ", " + '"'
+                                + npc_group_name + '"' + ", "
+                                + "0.5" + ", "
+                                + module_group + ", " + '"'
+                                + module_group_name +'"' + ");")
+    first_file_append.write('\n')
+    # Closing the file.
+    first_file_append.close()
+    # Printing the results.
+    print(module_group_name, " group is added to", npc_group_name, "drop list")
+
+
+'''
+LootItem fill function - fills the lootItemGroup.sql file with the loot items.
+Author - AlTahir(aka DaVinci)
+'''
+
+
+def loot_item_group_write(group_id, meta_level, size):
+    # Output file setup:
+    loot_item_group_file = workDir + 'lootItemGroup.sql'
+
+    # Defining the sizes and group, based on volumes for different invGroups:
+    # NOTE - thinking of moving it out of function by now...dat sizes.
+    if group_id == 53:
+        module_size = str(WeaponSizes[size])
+        if size == 1:
+            module_group = str("1")
+        elif size == 2:
+            module_group = str("2")
+        elif size == 3:
+            module_group = str("3")
+    elif group_id == 74:
+        module_size = str(WeaponSizes[size])
+        if size == 1:
+            module_group = str("4")
+        elif size == 2:
+            module_group = str("5")
+        elif size == 3:
+            module_group = str("6")
+    elif group_id == 507:
+        module_size = str("5")
+        module_group = str("10")
+    elif group_id == 509:
+        module_size = str("5")
+        module_group = str("11")
+    elif group_id == 510:
+        module_size = str("10")
+        module_group = str("13")
+    elif group_id == 511:
+        module_size = str("10")
+        module_group = str("12")
+    elif group_id == 771:
+        module_size = str("10")
+        module_group = str("14")
+    elif group_id == 506:
+        module_size = str("20")
+        module_group = str("15")
+    elif group_id == 508:
+        module_size = str("20")
+        module_group = str("16")
+    elif group_id == 62:
+        module_size = str(hullArmorRepairerSizes[size])
+        if size == 1:
+            module_group = str("28")
+        elif size == 2:
+            module_group = str("29")
+        elif size == 3:
+            module_group = str("30")
+    elif group_id == 63:
+        module_size = str(hullArmorRepairerSizes[size])
+        if size == 1:
+            module_group = str("25")
+        elif size == 2:
+            module_group = str("26")
+        elif size == 3:
+            module_group = str("27")
+    elif group_id == 38:
+        module_size = str(shieldExtenderSizes[size])
+        if size == 1:
+            module_group = str("18")
+        elif size == 2:
+            module_group = str("19")
+        elif size == 3:
+            module_group = str("20")
+        elif size == 5:
+            module_group = str("17")
+    elif group_id == 40:
+        module_size = str(shieldBoosterSizes[size])
+        if size == 1:
+            module_group = str("21")
+        elif size == 2:
+            module_group = str("22")
+        elif size == 3:
+            module_group = str("23")
+        elif size == 4:
+            module_group = str("24")
+    elif group_id == 329:
+        module_size = str(armorPlateSizes[size])
+        if size == 1:
+            module_group = str("31")
+        elif size == 2:
+            module_group = str("32")
+        elif size == 3:
+            module_group = str("33")
+
     # Defining the chances:
     if meta_level == 0:
         drop_chance = 0.8    # meta-0 = 80%
@@ -191,6 +402,7 @@ def query_composition(group_id, meta_level, size, npc_group_id):
         drop_chance = 0.25   # meta-3 = 25%
     elif meta_level == 4:
         drop_chance = 0.1    # meta-4 = 10%
+
     # Queries execution:
     cur1.executemany("SELECT it.groupID, ig.groupName, it.typeID, \
                    it.typeName  \
@@ -201,38 +413,37 @@ def query_composition(group_id, meta_level, size, npc_group_id):
                    AND dgm.valueint = %s \
                    AND ig.groupID = %s \
                    AND it.volume = %s", [(meta_level, group_id, module_size)])
-    cur2.executemany("SELECT groupID, groupName FROM invGroups\
-                    WHERE groupID = %s", [npc_group_id])
+    cur3.executemany("SELECT lootGroupID, lootGroupName \
+                    FROM lootItemGroupNames \
+                    WHERE lootGroupID = %s", [module_group])
     # Main processing branch:
     # Working with the cursor directly is a pain in the ass, so i had to use
     # a for-loop to define the current npc invGroup's name.
-    for npcRow in cur2:
-        npc_group_name = str(npcRow[1])
-    # Now the main workhorse of the function - adding queries one per itemID
-    file_fill = open(output_file, 'a')
+    for moduleRow in cur3:
+        module_group_name = str(moduleRow[1])
+    # Now the main workhorse of the function - adding queries one per itemID.
+    second_file_append = open(loot_item_group_file, 'a')
     for row in cur1:
+        # Second iteration - lootItemGroup file append.
         # Realy ugly formatting here, but can't be helped - writelines counts
         # the tabulations which makes resulting query look ugly
-        file_fill.writelines("INSERT INTO npcLoot (npcGroupID, npcGroupName,\n\
-    itemGroupID, itemGroupName, groupDropChance, \n \
-    itemID, itemName, itemDropChance, minAmount, maxAmount, metaLevel)\n \
-VALUES \n")
-        # Yet another loooong typing. Can't be helped too - MySQL syntax =(
-        file_fill.write("(" + str(npc_group_id) + ", " + '"' + npc_group_name
-                            + '"' + ", "
-                            + str(row[0]) + ", " +  '"' + str(row[1])
-                            + '"' + ", "
-                            + "0.5" + ", "
-                            + str(row[2]) + ", " + '"' + str(row[3])
-                            + '"' + ", "
-                            + str(drop_chance) + ", " + "1, " + "1, "
-                            + str(meta_level) + ");")
-        file_fill.write('\n')
+        second_file_append.writelines("INSERT INTO lootItemGroup (itemGroupID,\
+ itemGroupName, itemID, itemName, itemMetaLevel,\
+ itemDropChance, minAmount, maxAmount) \n \
+ VALUES \n")
+        second_file_append.write("(" + module_group + ", " + '"'
+                                 + module_group_name + '"' + ", "
+                                 + str(row[2]) + ", " + '"'
+                                 + str(row[3]) + '"' + ", "
+                                 + str(meta_level) + ", " + str(drop_chance)
+                                 + ", " + "1, 1" + ");")
+        second_file_append.write('\n')
+
     # Closing the file
-    file_fill.close()
+    second_file_append.close()
     # Printing the results - which group/module/metaLevel was processed
-    print(row[1], "adding with meta level ", meta_level, "to ",
-          npc_group_name, " is finished!")
+    print(module_group_name, "adding with meta level ", meta_level,
+          " is finished!")
     # Function End
 
 # ========================================================================== #
@@ -251,110 +462,62 @@ Author: Zuko
 Edit: AlTahir (aka DaVinci)
 '''
 
+# Creating the template files.
 file_сreation()
-# Asteroid Blood Raiders Frigate
-for meta in (0, 1, 2, 3, 4):
-    for moduleGroup in (53, 62, 329):
-        query_composition(moduleGroup, meta, 1, 557)
-# Making a separate loop for hull reps as they don't have meta-0 items
-for meta in (1, 2, 3, 4):
-    query_composition(63, meta, 1, 557)
-# Asteroid Blood Raiders Destroyer
-for meta in (0, 1, 2, 3, 4):
-    for moduleGroup in (53, 62, 329):
-        query_composition(moduleGroup, meta, 1, 577)
-# Another hull-rep
-for meta in (1, 2, 3, 4):
-    query_composition(63, meta, 1, 577)
-# Asteroid Blood Raiders Cruiser
-for meta in (0, 1, 2, 3, 4):
-    for moduleGroup in (53, 62, 329):
-        query_composition(moduleGroup, meta, 2, 555)
-# Another hull-rep
-for meta in (1, 2, 3, 4):
-    query_composition(63, meta, 2, 555)
-# Asteroid Blood Raiders BattleCruiser
-for meta in (0, 1, 2, 3, 4):
-    for moduleGroup in (53, 62, 329):
-        query_composition(moduleGroup, meta, 2, 578)
-for meta in (1, 2, 3, 4):
-    query_composition(63, meta, 2, 578)
-# Asteroid Blood Raiders Battleship
-for meta in (0, 1, 2, 3, 4):
-    for moduleGroup in (53, 62):
-        query_composition(moduleGroup, meta, 3, 556)
-# Same i did for hull reps i do for large armor reps
-for meta in (1, 2, 3, 4):
-    query_composition(329, meta, 3, 556)
-# Asteroid Guristas Frigate
-for meta in (0, 1, 2, 3, 4):
-    for moduleGroup in (507, 509, 74, 38, 40):
-        query_composition(moduleGroup, meta, 1, 562)
-# Asteroid Guristas Destroyer
-for meta in (0, 1, 2, 3, 4):
-    for moduleGroup in (507, 509, 74, 38, 40):
-        query_composition(moduleGroup, meta, 1, 579)
-# Asteroid Guristas Cruiser
-for meta in (0, 1, 2, 3, 4):
-    for moduleGroup in (510, 511, 74, 38, 40):
-        query_composition(moduleGroup, meta, 2, 561)
-# Asteroid Guristas BattleCruiser
-for meta in (0, 1, 2, 3, 4):
-    for moduleGroup in (510, 511, 74, 38, 40):
-        query_composition(moduleGroup, meta, 2, 580)
-# Asteroid Guristas Battleship
-for meta in (0, 1, 2, 3, 4):
-    for moduleGroup in (506, 508, 74, 38, 40):
-        query_composition(moduleGroup, meta, 3, 560)
-# Asteroid Sansha's Nation Frigate
-for meta in (0, 1, 2, 3, 4):
-    for moduleGroup in (53, 62, 329):
-        query_composition(moduleGroup, meta, 1, 567)
-# Asteroid Sansha's Nation Destroyer
-for meta in (0, 1, 2, 3, 4):
-    for moduleGroup in (53, 62, 329):
-        query_composition(moduleGroup, meta, 1, 581)
-# Asteroid Sansha's Nation Cruiser
-for meta in (0, 1, 2, 3, 4):
-    for moduleGroup in (53, 62, 329):
-        query_composition(moduleGroup, meta, 2, 566)
-# Asteroid Sansha's Nation BattleCruiser
-for meta in (0, 1, 2, 3, 4):
-    for moduleGroup in (53, 62, 329):
-        query_composition(moduleGroup, meta, 2, 582)
-# Asteroid Sansha's Nation Battleship
-for meta in (0, 1, 2, 3, 4):
-    for moduleGroup in (53, 62):
-        query_composition(moduleGroup, meta, 3, 565)
-# Same i did for hull reps i do for large armor reps
-for meta in (1, 2, 3, 4):
-    query_composition(329, meta, 3, 565)
-# Asteroid Serpentis Frigate
-for meta in (0, 1, 2, 3, 4):
-    for moduleGroup in (74, 62, 329):
-        query_composition(moduleGroup, meta, 1, 572)
-# Asteroid Serpentis Destroyer
-for meta in (0, 1, 2, 3, 4):
-    for moduleGroup in (74, 62, 329):
-        query_composition(moduleGroup, meta, 1, 583)
-# Asteroid Serpentis Cruiser
-for meta in (0, 1, 2, 3, 4):
-    for moduleGroup in (74, 62, 329):
-        query_composition(moduleGroup, meta, 2, 571)
-# Asteroid Serpentis BattleCruiser
-for meta in (0, 1, 2, 3, 4):
-    for moduleGroup in (74, 62, 329):
-        query_composition(moduleGroup, meta, 2, 584)
-# Asteroid Serpentis Battleship
-for meta in (0, 1, 2, 3, 4):
-    for moduleGroup in (74, 62):
-        query_composition(moduleGroup, meta, 3, 570)
-# Same i did for hull reps i do for large armor reps
-for meta in (1, 2, 3, 4):
-    query_composition(329, meta, 3, 570)
+
+# Bulk dump of all module groups.
+for moduleGroup in (53, 74, 38, 40, 62, 63, 329):
+    for metaLevel in (0, 1, 2, 3, 4):
+        for size in (1, 2, 3):
+            loot_item_group_write(moduleGroup, metaLevel, size)
+# Separate loops for missile launchers (prevents query duplicating):
+for moduleGroup in (507, 509, 511, 510, 771, 506, 508):
+    for metaLevel in (0, 1, 2, 3, 4):
+        loot_item_group_write(moduleGroup, metaLevel, 1)
+# Separate loops for XL-SB's and micro-SE's:
+for metaLevel in (0, 1, 2, 3, 4):
+        loot_item_group_write(38, metaLevel, 5)
+        loot_item_group_write(40, metaLevel, 4)
+
+# NPC groups assignment - BR and Sansha:
+for itemGroup in (53, 62, 63, 329):
+    for npcGroup in (557, 577, 567, 581):
+        loot_group_write(itemGroup, 1, npcGroup)
+    for npcGroup in (555, 578, 566, 582):
+        loot_group_write(itemGroup, 2, npcGroup)
+    for npcGroup in (556, 565):
+        loot_group_write(itemGroup, 3, npcGroup)
+
+# NPC groups assignment - Serpentis:
+for itemGroup in (74, 62, 63, 329):
+    for npcGroup in (572, 583):
+        loot_group_write(itemGroup, 1, npcGroup)
+    for npcGroup in (571, 584):
+        loot_group_write(itemGroup, 2, npcGroup)
+    loot_group_write(itemGroup, 3, 570)
+
+# NPC groups assignment - Guristas:
+for itemGroup in (74, 38, 40):
+    for npcGroup in (562, 579):
+        loot_group_write(itemGroup, 1, npcGroup)
+    for npcGroup in (561, 580):
+        loot_group_write(itemGroup, 2, npcGroup)
+    loot_group_write(itemGroup, 3, 560)
+for itemGroup in (507, 509):
+    for npcGroup in (562, 579):
+        loot_group_write(itemGroup, 1, npcGroup)
+for itemGroup in (510, 511, 771):
+    for npcGroup in (561, 580):
+        loot_group_write(itemGroup, 2, npcGroup)
+for itemGroup in (506, 508):
+    loot_group_write(itemGroup, 3, 560)
+loot_group_write(38, 5, 562)
+loot_group_write(40, 4, 560)
 
 # Closing the cursors and MySQL connections
 cur1.close()
 conn1.close()
 cur2.close()
 conn2.close()
+cur3.close()
+conn3.close()
