@@ -10,7 +10,7 @@ itemDropChance DECIMAL (6,4) NOT NULL,
 minAmount INT(11), 
 maxAmount INT(11)); 
 
- 
+
                          INSERT INTO lootItemGroup (itemGroupID, itemGroupName, itemID, itemName, itemMetaLevel, itemDropChance, minAmount, maxAmount) 
   VALUES 
 (1, "Small Energy Weapon", 450, "Gatling Pulse Laser I", 0, 0.8, 1, 1);

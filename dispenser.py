@@ -122,63 +122,14 @@ asteroidNpcInvGroupSizes = {550: [1, 5],  # Asteroid Angel Cartel Frigate
                             584: 2,      # Asteroid Serpentis BattleCruiser
                             }
 
-# ========================================================================== #
-#                           Functions Section                                #
-# ========================================================================== #
 '''
-File creation function - creates the output sql file with CREATE TABLE
-template, insuring the correct DB structure creation
-Author: AlTahir (aka DaVinci)
+Item filter function - assigns the specified item group_ID and size to a
+respective items in loot system
+Author - AlTahir (aka DaVinci)
 '''
 
 
-def file_сreation():
-    # Output file setup:
-    loot_group_file = workDir + 'lootGroup.sql'
-    loot_item_group_file = workDir + 'lootItemGroup.sql'
-    # Creating and filling the first file. Warning - ugly formatting here =) :
-    first_file = open(loot_group_file, 'w')
-    first_file.writelines("DROP TABLE IF EXISTS lootGroup; \n\
-\n\
-CREATE TABLE IF NOT EXISTS lootGroup( \n\
-npcGroupID INT(11) , \n\
-npcGroupName TEXT, \n\
-groupDropChance DECIMAL (6,4) NOT NULL, \n\
-itemGroupID INT(11), \n\
-itemGroupName TEXT); \n\
-\n \
-\n                        ")
-    # Creating and filling the second file. Warning - ugly formatting here =) :
-    second_file = open(loot_item_group_file, 'w')
-    second_file.writelines("DROP TABLE IF EXISTS lootItemGroup; \n\
-\n\
-CREATE TABLE IF NOT EXISTS lootItemGroup( \n\
-itemGroupID INT(11) , \n\
-itemGroupName TEXT, \n\
-itemID INT(11), \n\
-itemName TEXT, \n\
-itemMetaLevel INT(11), \n\
-itemDropChance DECIMAL (6,4) NOT NULL, \n\
-minAmount INT(11), \n\
-maxAmount INT(11)); \n\
-\n \
-\n                         ")
-    # Closing both files:
-    first_file.close()
-    second_file.close()
-    # End of function
-
-'''
-LootGroup fill function - fills the lootGroup table with the loot groups.
-Author - AlTahir(aka DaVinci)
-'''
-
-
-def loot_group_write(group_id, size, npc_group_id):
-    # Output file setup:
-    loot_group_file = workDir + 'lootGroup.sql'
-    # Defining the sizes and group, based on volumes for different invGroups:
-    # NOTE - thinking of moving it out of function by now...dat sizes.
+def group_filter(group_id, size):
     if group_id == 53:
         module_size = str(WeaponSizes[size])
         if size == 1:
@@ -260,6 +211,69 @@ def loot_group_write(group_id, size, npc_group_id):
             module_group = str("32")
         elif size == 3:
             module_group = str("33")
+
+    return (module_size, module_group)
+
+
+# ========================================================================== #
+#                           Functions Section                                #
+# ========================================================================== #
+'''
+File creation function - creates the output sql file with CREATE TABLE
+template, insuring the correct DB structure creation
+Author: AlTahir (aka DaVinci)
+'''
+
+
+def file_сreation():
+    # Output file setup:
+    loot_group_file = workDir + 'lootGroup.sql'
+    loot_item_group_file = workDir + 'lootItemGroup.sql'
+    # Creating and filling the first file. Warning - ugly formatting here =) :
+    first_file = open(loot_group_file, 'w')
+    first_file.writelines("DROP TABLE IF EXISTS lootGroup; \n\
+\n\
+CREATE TABLE IF NOT EXISTS lootGroup( \n\
+npcGroupID INT(11) , \n\
+npcGroupName TEXT, \n\
+groupDropChance DECIMAL (6,4) NOT NULL, \n\
+itemGroupID INT(11), \n\
+itemGroupName TEXT); \n\
+\n\
+\n                        ")
+    # Creating and filling the second file. Warning - ugly formatting here =) :
+    second_file = open(loot_item_group_file, 'w')
+    second_file.writelines("DROP TABLE IF EXISTS lootItemGroup; \n\
+\n\
+CREATE TABLE IF NOT EXISTS lootItemGroup( \n\
+itemGroupID INT(11) , \n\
+itemGroupName TEXT, \n\
+itemID INT(11), \n\
+itemName TEXT, \n\
+itemMetaLevel INT(11), \n\
+itemDropChance DECIMAL (6,4) NOT NULL, \n\
+minAmount INT(11), \n\
+maxAmount INT(11)); \n\
+\n\
+\n                         ")
+    # Closing both files:
+    first_file.close()
+    second_file.close()
+    # End of function
+
+
+'''
+LootGroup fill function - fills the lootGroup table with the loot groups.
+Author - AlTahir(aka DaVinci)
+'''
+
+
+def loot_group_write(group_id, size, npc_group_id):
+    # Output file setup:
+    loot_group_file = workDir + 'lootGroup.sql'
+    # Defining the sizes and group, based on volumes for different invGroups.
+    # Using the separate library function to do the job now:
+    module_size, module_group = group_filter(group_id, size)
 
     # Executing queries:
     cur2.executemany("SELECT groupID, groupName FROM invGroups\
@@ -308,88 +322,8 @@ def loot_item_group_write(group_id, meta_level, size):
     loot_item_group_file = workDir + 'lootItemGroup.sql'
 
     # Defining the sizes and group, based on volumes for different invGroups:
-    # NOTE - thinking of moving it out of function by now...dat sizes.
-    if group_id == 53:
-        module_size = str(WeaponSizes[size])
-        if size == 1:
-            module_group = str("1")
-        elif size == 2:
-            module_group = str("2")
-        elif size == 3:
-            module_group = str("3")
-    elif group_id == 74:
-        module_size = str(WeaponSizes[size])
-        if size == 1:
-            module_group = str("4")
-        elif size == 2:
-            module_group = str("5")
-        elif size == 3:
-            module_group = str("6")
-    elif group_id == 507:
-        module_size = str("5")
-        module_group = str("10")
-    elif group_id == 509:
-        module_size = str("5")
-        module_group = str("11")
-    elif group_id == 510:
-        module_size = str("10")
-        module_group = str("13")
-    elif group_id == 511:
-        module_size = str("10")
-        module_group = str("12")
-    elif group_id == 771:
-        module_size = str("10")
-        module_group = str("14")
-    elif group_id == 506:
-        module_size = str("20")
-        module_group = str("15")
-    elif group_id == 508:
-        module_size = str("20")
-        module_group = str("16")
-    elif group_id == 62:
-        module_size = str(hullArmorRepairerSizes[size])
-        if size == 1:
-            module_group = str("28")
-        elif size == 2:
-            module_group = str("29")
-        elif size == 3:
-            module_group = str("30")
-    elif group_id == 63:
-        module_size = str(hullArmorRepairerSizes[size])
-        if size == 1:
-            module_group = str("25")
-        elif size == 2:
-            module_group = str("26")
-        elif size == 3:
-            module_group = str("27")
-    elif group_id == 38:
-        module_size = str(shieldExtenderSizes[size])
-        if size == 1:
-            module_group = str("18")
-        elif size == 2:
-            module_group = str("19")
-        elif size == 3:
-            module_group = str("20")
-        elif size == 5:
-            module_group = str("17")
-    elif group_id == 40:
-        module_size = str(shieldBoosterSizes[size])
-        if size == 1:
-            module_group = str("21")
-        elif size == 2:
-            module_group = str("22")
-        elif size == 3:
-            module_group = str("23")
-        elif size == 4:
-            module_group = str("24")
-    elif group_id == 329:
-        module_size = str(armorPlateSizes[size])
-        if size == 1:
-            module_group = str("31")
-        elif size == 2:
-            module_group = str("32")
-        elif size == 3:
-            module_group = str("33")
+    # Using the separate library function to do the job now:
+    module_size, module_group = group_filter(group_id, size)
 
     # Defining the chances:
     if meta_level == 0:
@@ -479,7 +413,7 @@ for metaLevel in (0, 1, 2, 3, 4):
         loot_item_group_write(38, metaLevel, 5)
         loot_item_group_write(40, metaLevel, 4)
 
-# NPC groups assignment - BR and Sansha:
+# NPC groups assignment - Asteroid BR and Sansha:
 for itemGroup in (53, 62, 63, 329):
     for npcGroup in (557, 577, 567, 581):
         loot_group_write(itemGroup, 1, npcGroup)
@@ -488,7 +422,7 @@ for itemGroup in (53, 62, 63, 329):
     for npcGroup in (556, 565):
         loot_group_write(itemGroup, 3, npcGroup)
 
-# NPC groups assignment - Serpentis:
+# NPC groups assignment - Asteroid Serpentis:
 for itemGroup in (74, 62, 63, 329):
     for npcGroup in (572, 583):
         loot_group_write(itemGroup, 1, npcGroup)
@@ -496,7 +430,7 @@ for itemGroup in (74, 62, 63, 329):
         loot_group_write(itemGroup, 2, npcGroup)
     loot_group_write(itemGroup, 3, 570)
 
-# NPC groups assignment - Guristas:
+# NPC groups assignment - Asteroid Guristas:
 for itemGroup in (74, 38, 40):
     for npcGroup in (562, 579):
         loot_group_write(itemGroup, 1, npcGroup)

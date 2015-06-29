@@ -7,7 +7,7 @@ groupDropChance DECIMAL (6,4) NOT NULL,
 itemGroupID INT(11), 
 itemGroupName TEXT); 
 
- 
+
                         INSERT INTO lootGroup (npcGroupID, npcGroupName, groupDropChance, itemGroupID, itemGroupName) 
  VALUES 
 (557, "Asteroid Blood Raiders Frigate", 0.5, 1, "Small Energy Weapon");
