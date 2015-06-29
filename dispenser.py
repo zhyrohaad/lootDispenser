@@ -130,7 +130,7 @@ Author - AlTahir (aka DaVinci)
 
 
 def group_filter(group_id, size):
-    if group_id == 53:
+    if group_id == 53:                      # Energy Weapons
         module_size = str(WeaponSizes[size])
         if size == 1:
             module_group = str("1")
@@ -138,7 +138,7 @@ def group_filter(group_id, size):
             module_group = str("2")
         elif size == 3:
             module_group = str("3")
-    elif group_id == 74:
+    elif group_id == 74:                    # Hybrid Turrets
         module_size = str(WeaponSizes[size])
         if size == 1:
             module_group = str("4")
@@ -146,28 +146,28 @@ def group_filter(group_id, size):
             module_group = str("5")
         elif size == 3:
             module_group = str("6")
-    elif group_id == 507:
+    elif group_id == 507:                   # Rocket Launchers
         module_size = str("5")
         module_group = str("10")
-    elif group_id == 509:
+    elif group_id == 509:                   # Light Missiles
         module_size = str("5")
         module_group = str("11")
-    elif group_id == 510:
+    elif group_id == 510:                   # Heavy Missiles
         module_size = str("10")
         module_group = str("13")
-    elif group_id == 511:
+    elif group_id == 511:                   # Rapid Light Missile Launchers
         module_size = str("10")
         module_group = str("12")
-    elif group_id == 771:
+    elif group_id == 771:                   # Heavy Assault Missile Launchers
         module_size = str("10")
         module_group = str("14")
-    elif group_id == 506:
+    elif group_id == 506:                   # Cruise Missile Launchers
         module_size = str("20")
         module_group = str("15")
-    elif group_id == 508:
+    elif group_id == 508:                   # Torpedo Launchers
         module_size = str("20")
         module_group = str("16")
-    elif group_id == 62:
+    elif group_id == 62:                    # Armor Repairers
         module_size = str(hullArmorRepairerSizes[size])
         if size == 1:
             module_group = str("28")
@@ -175,7 +175,7 @@ def group_filter(group_id, size):
             module_group = str("29")
         elif size == 3:
             module_group = str("30")
-    elif group_id == 63:
+    elif group_id == 63:                    # Hull Repairers
         module_size = str(hullArmorRepairerSizes[size])
         if size == 1:
             module_group = str("25")
@@ -183,7 +183,7 @@ def group_filter(group_id, size):
             module_group = str("26")
         elif size == 3:
             module_group = str("27")
-    elif group_id == 38:
+    elif group_id == 38:                    # Shield Extenders
         module_size = str(shieldExtenderSizes[size])
         if size == 1:
             module_group = str("18")
@@ -193,7 +193,7 @@ def group_filter(group_id, size):
             module_group = str("20")
         elif size == 5:
             module_group = str("17")
-    elif group_id == 40:
+    elif group_id == 40:                    # Shield Boosters
         module_size = str(shieldBoosterSizes[size])
         if size == 1:
             module_group = str("21")
@@ -203,7 +203,7 @@ def group_filter(group_id, size):
             module_group = str("23")
         elif size == 4:
             module_group = str("24")
-    elif group_id == 329:
+    elif group_id == 329:                   # Armor Plates
         module_size = str(armorPlateSizes[size])
         if size == 1:
             module_group = str("31")
@@ -241,7 +241,7 @@ itemGroupID INT(11), \n\
 itemGroupName TEXT); \n\
 \n\
 \n                        ")
-    # Creating and filling the second file. Warning - ugly formatting here =) :
+    # Creating and filling the second file. Warning - ugly formatting here =):
     second_file = open(loot_item_group_file, 'w')
     second_file.writelines("DROP TABLE IF EXISTS lootItemGroup; \n\
 \n\
@@ -308,7 +308,7 @@ VALUES \n")
     # Closing the file.
     first_file_append.close()
     # Printing the results.
-    print(module_group_name, " group is added to", npc_group_name, "drop list")
+    print(module_group_name, "group is added to", npc_group_name, "drop list")
 
 
 '''
