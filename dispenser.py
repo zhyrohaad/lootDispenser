@@ -236,7 +236,7 @@ def file_сreation():
 CREATE TABLE IF NOT EXISTS lootGroup( \n\
 npcGroupID INT(11) , \n\
 npcGroupName TEXT, \n\
-groupDropChance DECIMAL (6,4) NOT NULL, \n\
+groupDropChance FLOAT (6,4) NOT NULL, \n\
 itemGroupID INT(11), \n\
 itemGroupName TEXT); \n\
 \n\
@@ -251,7 +251,7 @@ itemGroupName TEXT, \n\
 itemID INT(11), \n\
 itemName TEXT, \n\
 itemMetaLevel INT(11), \n\
-itemDropChance DECIMAL (6,4) NOT NULL, \n\
+itemDropChance FLOAT (6,4) NOT NULL, \n\
 minAmount INT(11), \n\
 maxAmount INT(11)); \n\
 \n\
