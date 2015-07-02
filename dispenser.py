@@ -408,7 +408,7 @@ Edit: AlTahir (aka DaVinci)
 file_сreation()
 
 # Bulk dump of all module groups.
-for moduleGroup in (53, 74, 38, 40, 62, 63, 329):
+for moduleGroup in (53, 55, 74, 38, 40, 62, 63, 329):
     for metaLevel in (0, 1, 2, 3, 4):
         for size in (1, 2, 3):
             loot_item_group_write(moduleGroup, metaLevel, size)
