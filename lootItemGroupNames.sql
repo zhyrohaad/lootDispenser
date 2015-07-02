@@ -38,4 +38,7 @@ INSERT INTO lootItemGroupNames (lootGroupID, lootGroupName) VALUES
 (30, 'Large Armor Repairer'),
 (31, 'Small Armor Plate'),
 (32, 'Medium Armor Plate'),
-(33, 'Large Armor Plate');
+(33, 'Large Armor Plate'),
+(34, 'Small Projectile Weapon'),
+(35, 'Medium Projectile Weapon'),
+(36, 'Large Projectile Weapon');
