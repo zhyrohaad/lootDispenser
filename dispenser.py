@@ -146,6 +146,14 @@ def group_filter(group_id, size):
             module_group = str("5")
         elif size == 3:
             module_group = str("6")
+    elif group_id == 55:                     # Projectile Weapons
+        module_size = str(WeaponSizes[size])
+        if size == 1:
+            module_group = str("34")
+        elif size == 2:
+            module_group = str("35")
+        elif size == 3:
+            module_group = str("36")
     elif group_id == 507:                   # Rocket Launchers
         module_size = str("5")
         module_group = str("10")
@@ -447,6 +455,24 @@ for itemGroup in (506, 508):
     loot_group_write(itemGroup, 3, 560)
 loot_group_write(38, 5, 562)
 loot_group_write(40, 4, 560)
+
+# NPC groups assignment - Asteroid Angel Cartel:
+for itemGroup in (55, 38, 40):
+    for npcGroup in (550, 575):
+        loot_group_write(itemGroup, 1, npcGroup)
+    for npcGroup in (551, 576):
+        loot_group_write(itemGroup, 2, npcGroup)
+    loot_group_write(itemGroup, 3, 552)
+for itemGroup in (507, 509):
+    for npcGroup in (550, 575):
+        loot_group_write(itemGroup, 1, npcGroup)
+for itemGroup in (510, 511, 771):
+    for npcGroup in (551, 576):
+        loot_group_write(itemGroup, 2, npcGroup)
+for itemGroup in (506, 508):
+    loot_group_write(itemGroup, 3, 552)
+loot_group_write(38, 5, 550)
+loot_group_write(40, 4, 552)
 
 # Closing the cursors and MySQL connections
 cur1.close()

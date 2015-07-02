@@ -6,7 +6,7 @@ itemGroupName TEXT,
 itemID INT(11), 
 itemName TEXT, 
 itemMetaLevel INT(11), 
-itemDropChance DECIMAL (6,4) NOT NULL, 
+itemDropChance FLOAT (6,4) NOT NULL, 
 minAmount INT(11), 
 maxAmount INT(11)); 
 
