@@ -233,7 +233,7 @@ Author: AlTahir (aka DaVinci)
 '''
 
 
-def file_сreation():
+def file_сreate():
     # Output file setup:
     loot_group_file = workDir + 'lootGroup.sql'
     loot_item_group_file = workDir + 'lootItemGroup.sql'
@@ -405,7 +405,7 @@ Edit: AlTahir (aka DaVinci)
 '''
 
 # Creating the template files.
-file_сreation()
+file_сreate()
 
 # Bulk dump of all module groups.
 for moduleGroup in (53, 55, 74, 38, 40, 62, 63, 329):
